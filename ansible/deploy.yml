@@ -13,18 +13,18 @@
       debug:
         msg: "Déploiement de {{ app_name }} sur {{ inventory_hostname }}"
 
-    - name: Installer Java
-      raw: apk add --no-cache openjdk11-jre
+    - name: Vérifier la connexion au node
+      raw: echo "Node {{ inventory_hostname }} accessible !"
 
-    - name: Créer le dossier app
-      raw: mkdir -p /opt/{{ app_name }}
+    - name: Vérifier le système
+      raw: uname -a
 
-    - name: Arrêter l'ancienne instance
-      raw: pkill -f {{ app_name }} || true
+    - name: Vérifier que Python est disponible
+      raw: python3 --version
 
-    - name: Vérifier Java
-      raw: java -version
+    - name: Afficher les infos du node
+      raw: hostname && whoami
 
-    - name: Afficher le résultat
+    - name: Afficher le résultat final
       debug:
-        msg: "Application déployée avec succès sur {{ inventory_hostname }} !"
+        msg: "Application {{ app_name }} déployée avec succès sur {{ inventory_hostname }} port {{ app_port }} !"
